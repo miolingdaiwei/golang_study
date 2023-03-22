@@ -24,6 +24,30 @@ func (w *Words) outWord(data string) string {
 	return " s "
 }
 
+type add interface {
+	addOne() bool
+}
+
+type del interface {
+	delOne() bool
+}
+
+type num interface {
+	add
+	del
+}
+
+type number struct {
+}
+
+func (n *number) add() bool {
+	return true
+}
+
+func (n *number) del() bool {
+	return true
+}
+
 func main() {
 	//定义好一个结构体变量，使用new分配空间
 	w := new(Words)
@@ -36,5 +60,13 @@ func main() {
 
 	//那么这个被实现后的接口变量就可以调用outWord方法
 	word.outWord("data")
+
+	var x interface{}
+	x = 1
+	//var y int =x
+	//上面这种写法是不可以的，因为x的类型还是interface
+	var y, ok = x.(int)
+	//可以通过断言拿到值,但是断言的是int,且bool是true
+	fmt.Println(y, ok) //1 true
 
 }
